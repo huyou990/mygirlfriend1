@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>给十八岁的你</title>
+</head>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Microsoft YaHei', sans-serif; 
+            overflow: hidden; 
+            height: 100vh; 
+            background: linear-gradient(135deg, #ffecd2, #fcb69f); /* 暖色调背景板 */ 
+        }
+        .page { 
+            position: fixed; 
+            width: 100%; 
+            height: 100%; 
+            transition: opacity 1s; 
+            z-index: 2; 
+        }
+        #page1 { opacity: 1; }
+        #page2 { 
+            opacity: 0; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            flex-direction: column; 
+            background: url(images1/女朋友生日网站背景图1.png) center/cover no-repeat; /* 替换为你的图片 */
+             
+        }
+        /* 背景动画 */
+        .bg-animation { 
+            position: absolute; 
+            top: 0; left: 0; 
+            width: 100%; height: 100%; 
+            overflow: hidden; 
+            z-index: 1; 
+        }
+        .shape { 
+            position: absolute; 
+            bottom: -50px; 
+            animation: float 13s linear infinite; 
+        }
+        .square { 
+            background: rgba(255,255,255,0.5); 
+            border-radius: 3px; 
+        }
+        .triangle { 
+            width: 0; height: 0; 
+            border-style: solid; 
+            border-color: transparent transparent rgba(255,255,255,0.5) transparent; 
+        }
+        @keyframes float { 
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; } 
+            10% { opacity: var(--o); } 
+            90% { opacity: var(--o); transform: translateY(-100vh) rotate(var(--r)); } 
+            100% { transform: translateY(-100vh) rotate(var(--r)); opacity: 0; } 
+        }
+        /* 文字样式 */
+        .text-center { 
+            position: absolute; 
+            top: 50%; left: 50%; 
+            transform: translate(-50%, -50%); 
+            text-align: center; 
+            color: #5d4037; /* 深棕纯色 */ 
+            z-index: 3; 
+        }
+        .title { 
+            font-size: 2.8rem; 
+            margin-bottom: 20px; 
+            opacity: 0; 
+            animation: fadeIn 1.5s forwards; 
+        }
+        .content { 
+            font-size: 1.3rem; 
+            line-height: 1.8; 
+            opacity: 0; 
+            animation: fadeIn 1.5s forwards 0.8s; 
+        }
+        .subtitle { font-size: 1.5rem; margin: 15px 0; }
+        @keyframes fadeIn { 
+            0% { opacity: 0; transform: translateY(20px); } 
+            100% { opacity: 1; transform: translateY(0); } 
+        }
+        /* 提示文字 */
+        .hint { 
+            position: absolute; 
+            bottom: 50px; 
+            left: 50%; 
+            transform: translateX(-50%); 
+            color: rgba(93,64,55,0.7); 
+            opacity: 0; 
+            animation: fadeIn 2s forwards 13s; 
+            z-index: 3; 
+        }
+
+        /* 输入框 */
+        .input-box { 
+            opacity: 0; 
+            animation: fadeIn 1.5s forwards 0.5s; 
+        }
+        .transparent-input { 
+            width: 300px; 
+            padding: 15px 20px; 
+            border: 2px solid white; 
+            border-radius: 25px; 
+            background: transparent; 
+            color: white; 
+            font-size: 1.1rem; 
+            outline: none; 
+            transition: all 0.3s; 
+        }
+        .transparent-input::placeholder { color: rgba(255,255,255,0.7); }
+        .transparent-input:hover { 
+            border-color: #ffd600; 
+            transform: scale(1.05); 
+        }
+        /* 超链接 */
+        .link-box { 
+            opacity: 0; 
+            margin-top: 30px; 
+            transform: translateY(20px); 
+        }
+        .memory-link { 
+            display: inline-block; 
+            padding: 12px 30px; 
+            border: 2px solid white; 
+            border-radius: 30px; 
+            color: white; 
+            font-size: 1.2rem; 
+            text-decoration: none; 
+            transition: all 0.3s; 
+        }
+        .memory-link:hover { 
+            transform: scale(1.1); 
+            background: rgba(255,214,0,0.2); 
+            border-color: #ffd600; 
+            color: #ffd600; 
+        }
+</style>
+<body>
+    <!-- 背景动画 -->
+    <div class="bg-animation" id="anim"></div>
+
+    <!-- 第一页 -->
+    <div class="page" id="page1">
+        <div class="text-center">
+            <h1 class="title">给十八岁的你</h1>
+            <div class="content">
+                
+                <p>从相识的秋  再到生日的冬 你翻书的侧影 是我最得意的诗行。</p>
+                <p class="subtitle">十八岁生日快乐！</p>
+                <p>我的“小楠狗”</p>
+            </div>
+        </div>
+        <div class="hint">往下滑，记得点enter键哦~</div>
+    </div>
+    <!-- 第二页 -->
+    <div class="page" id="page2">
+        <div class="input-box" id="inputBox">
+            <input type="text" class="transparent-input" id="answer" placeholder="输入我给你的备注" autofocus>
+        </div>
+        <div class="link-box" id="linkBox">
+            <a href="https://huyou990.github.io/mygirlfriend/" class="memory-link" id="link">点击开始回忆</a>
+        </div>
+    </div>
+    <script>
+        // 生成背景动画图形
+        const anim = document.getElementById('anim');
+        for(let i=0; i<12; i++){
+            const shape = document.createElement('div');
+            shape.className = `shape ${Math.random()>0.5?'square':'triangle'}`;
+            const size = Math.random()*50+20; // 大小不均
+            const o = Math.random()*0.5+0.3; // 深浅（透明度）
+            const r = Math.random()*360; // 旋转角度
+            const l = Math.random()*100; // 水平位置
+            const d = Math.random()*5; // 动画延迟
+            
+            if(shape.classList.contains('square')){
+                shape.style.width = size+'px';
+                shape.style.height = size+'px';
+                shape.style.backgroundColor = `rgba(255,255,255,${o})`;
+            }else{
+                shape.style.borderWidth = `0 ${size/2}px ${size}px ${size/2}px`;
+                shape.style.borderColor = `transparent transparent rgba(255,255,255,${o}) transparent`;
+            }
+            shape.style.setProperty('--o', o);
+            shape.style.setProperty('--r', r+'deg');
+            shape.style.left = l+'%';
+            shape.style.animationDelay = d+'s';
+            anim.appendChild(shape);
+        }
+        // 滑动切换页面
+        let scrolled = false;
+        window.addEventListener('wheel', (e)=>{
+            if(scrolled || e.deltaY<=0) return;
+            scrolled = true;
+            document.getElementById('page1').style.opacity = 0;
+            setTimeout(()=>{
+                document.getElementById('page2').style.opacity = 1;
+            }, 500);
+        });
+
+        // 输入框验证
+        const answer = document.getElementById('answer');
+        const inputBox = document.getElementById('inputBox');
+        const linkBox = document.getElementById('linkBox');
+        answer.addEventListener('keypress', (e)=>{
+            if(e.key==='Enter'){
+                if(answer.value.trim()==='小楠狗'){
+                    inputBox.style.opacity = 0;
+                    setTimeout(()=>{
+                        inputBox.style.display = 'none';
+                        linkBox.style.opacity = 1;
+                        linkBox.style.transform = 'translateY(0)';
+                    }, 600);
+                }else{
+                    answer.value = '';
+                    answer.placeholder = '再试一次～';
+                }
+            }
+        });
+    </script>
+    
+</body>
+</html>
